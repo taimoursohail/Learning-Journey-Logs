@@ -1,6 +1,6 @@
 import sys
 
-# 1char = 1byte (8 bit)
+# 1 byte (8 bit)
 
 ''' 
 
@@ -62,6 +62,7 @@ print(sys.getsizeof(200/2), "bytes") # Division ops use the least memory here.
 print(sys.getsizeof(50*2), "bytes")
 '''
 
+'''
 # Compare the string length result and the simple number.
 
 name = "taimour"
@@ -74,3 +75,17 @@ print(sys.getsizeof(len(name)), "bytes") #It throws the memory bytes result of  
 print(sys.getsizeof(7), "bytes")
 
 print(sys.getsizeof(), "bytes")
+'''
+
+# optional to understand regarding Int Data type:
+
+# 1. Base Overhead (Python 3.12+): Integer ka basic structure 28 bytes ka hota hai
+# 2. Binary Chunks: Digits binary (30-bit) chunks mein store hote hain, har extra chunk +4 bytes add karta hai
+# 3. Standard Allocation: Value 0 se lekar ~1.07 Billion (2^30 - 1) tak sab integers 28 bytes lete hain
+# 4. Memory Expansion: Jab number 1.07 Billion ko cross karta hai, toh auto +4 bytes (total 32 bytes) add ho jate hain
+# 5. CPU vs RAM: Arithmetic calculation ka stress CPU par hota hai; sys.getsizeof() sirf final result ki memory measure karta hai
+
+print(sys.getsizeof(0))          # Output: 28 bytes (Base header in modern Python)
+print(sys.getsizeof(100))        # Output: 28 bytes (Fits in initial capacity)
+print(sys.getsizeof(123456789))  # Output: 28 bytes (9 digits < 1.07 Billion)
+print(sys.getsizeof(2**30))      # Output: 32 bytes (Crosses 1.07 Billion threshold)
